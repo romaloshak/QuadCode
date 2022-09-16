@@ -1,26 +1,128 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import clsx from 'clsx';
+
+import Plus from './Assets/icons/Plus';
+import WavesIcon from './Assets/icons/Waves';
+import MainLayout from './components/Layout';
+import ProjectsColumn from './components/Projects/Column';
+import Popup from './components/ui/Popup';
+import { IColumn } from './Interfaces/IColum';
+import './styles/index.css';
+import { columnsTypes, ColumnsType } from './utils/list/columnsTypes';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [columns, setColumns] = useState<IColumn[]>([]);
+	const [showAddColumPopup, setShowAddColumPopup] = useState(false);
+	const [columnOption, setColumnOption] = useState('');
+	const [columnOptionError, setColumnOptionError] = useState('');
+
+	const disabledOption = (type: ColumnsType) => columns.map(column => column.type).includes(type);
+
+	useEffect(() => {
+		fetch('http://localhost:3001/columns')
+			.then(res => res.json())
+			.then(res => setColumns(res));
+	}, []);
+
+	return (
+		<MainLayout>
+			<div>
+				<div className='flex justify-between'>
+					<div className='flex gap-x-2 items-center'>
+						<WavesIcon />
+						<span className='text-base leading-4 font-medium'>Процессы проекта CRM - система</span>
+					</div>
+					<button
+						className='btn-primary'
+						onClick={() => {
+							setShowAddColumPopup(true);
+						}}
+					>
+						Добавить столбец
+					</button>
+				</div>
+			</div>
+			<hr className='my-4 border border-[#E9E9E9]' />
+			<div className='flex gap-x-10'>
+				{columns.map(column => (
+					<ProjectsColumn key={column.id} column={column} setColumns={setColumns} />
+				))}
+			</div>
+			{showAddColumPopup && (
+				<Popup setShowPopup={setShowAddColumPopup} popupClassName='top-1/4'>
+					<div className='rounded bg-white p-10 flex flex-col gap-y-6'>
+						<div className='flex justify-between items-center'>
+							<span className='text-base leading-4 font-medium'>Новый столбец</span>
+							<button
+								className='rotate-45'
+								onClick={() => {
+									setShowAddColumPopup(false);
+								}}
+							>
+								<Plus color='text-primary' />
+							</button>
+						</div>
+
+						<div className='flex gap-x-2'>
+							<label htmlFor='column-type'>Тип столбца:</label>
+							<div className='flex flex-col'>
+								<select
+									name='column-type'
+									className={clsx(
+										'border border-solid text-sm bg-white rounded px-2',
+										columnOptionError ? 'border-red-400' : '',
+									)}
+									value={columnOption}
+									onChange={({ target: { value } }) => {
+										setColumnOption(value);
+									}}
+								>
+									<option value={''} disabled>
+										Выберите тип
+									</option>
+									{columnsTypes.map(type => (
+										<option key={type.id} value={type.id} disabled={disabledOption(type.id)}>
+											{type.name}
+										</option>
+									))}
+								</select>
+								{columnOptionError ? (
+									<span className='text-xs text-red-400'>{columnOptionError}</span>
+								) : null}
+							</div>
+						</div>
+						<div>
+							<button
+								className='btn-primary'
+								onClick={async () => {
+									if (!columnOption) {
+										setColumnOptionError('Обязательное поле');
+										return;
+									}
+									setColumnOption('');
+									setColumnOptionError('');
+									await fetch('http://localhost:3001/columns', {
+										method: 'POST', // *GET, POST, PUT, DELETE, etc.
+										mode: 'cors', // no-cors, *cors, same-origin
+										headers: {
+											'Content-Type': 'application/json',
+										},
+										body: JSON.stringify({ type: columnOption }), // body data type must match "Content-Type" header
+									})
+										.then(response => response.json())
+										.then(data => {
+											setColumns(value => [...value, data]);
+										});
+								}}
+							>
+								Добавить
+							</button>
+						</div>
+					</div>
+				</Popup>
+			)}
+		</MainLayout>
+	);
 }
 
 export default App;

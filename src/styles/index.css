@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*:focus {
+	outline: none;
+}
+
+html {
+	@apply font-rubik;
+}
+
+@layer components {
+	.nav-link {
+		@apply relative text-[16px] leading-[19px] font-medium text-[#B8B8B8] hover:text-white ease-in-out duration-500
+			after:content-[''] after:absolute after:flex after:h-[2px] after:w-0 after:-left-1 after:mt-[2px] after:bg-[#E96880]
+			after:transition-all;
+	}
+	.nav-link:hover::after,
+	.nav-active::after {
+		width: calc(100% + 8px);
+	}
+	.nav-active {
+		@apply relative text-white 
+		after:content-[''] after:absolute after:flex after:h-[2px] after:-left-1 after:mt-[2px] after:bg-[#E96880];
+	}
+
+	.btn-primary {
+		@apply p-[9px_22px] bg-[#c6d2e5] text-[11px] leading-[13px] font-bold tracking-[0.5px] uppercase rounded 
+		hover:bg-[#a7bde3] active:bg-[#96b1e0] transition-all duration-100;
+	}
+}
