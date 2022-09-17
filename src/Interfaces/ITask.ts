@@ -1,8 +1,8 @@
 import { ColumnsType } from 'src/utils/list/columnsTypes';
-import { ITask } from './ITask';
 
-export interface IColumn {
+export interface ITask {
 	id: number;
+	name: string;
+	columnId: number;
 	type: ColumnsType;
-	tasks: ITask[];
 }

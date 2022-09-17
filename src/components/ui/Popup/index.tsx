@@ -1,10 +1,5 @@
 import clsx from 'clsx';
-
-interface IPopup {
-	children: React.ReactNode;
-	setShowPopup: (value: boolean) => void;
-	popupClassName?: string;
-}
+import { IPopup } from 'src/Interfaces/IPopup';
 
 const Popup: React.FC<IPopup> = ({ setShowPopup, children, popupClassName = 'top-12' }) => {
 	return (
@@ -15,8 +10,8 @@ const Popup: React.FC<IPopup> = ({ setShowPopup, children, popupClassName = 'top
 					setShowPopup(false);
 				}}
 			></div>
-			<div className={clsx('fixed left-0 z-30 w-full h-auto', popupClassName)}>
-				<div className='flex items-center justify-center'>{children}</div>
+			<div className={clsx('fixed left-1/2 -translate-x-[225px] z-30 h-auto', popupClassName)}>
+				{children}
 			</div>
 		</>
 	);

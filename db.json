@@ -1,8 +1,54 @@
 {
   "columns": [
     {
-      "type": "In work",
+      "type": "In test",
+      "id": 2
+    },
+    {
+      "type": "Done",
       "id": 3
+    },
+    {
+      "type": "Backlog",
+      "id": 4
+    }
+  ],
+  "tasks": [
+    {
+      "name": "roma",
+      "columnId": 2,
+      "type": "In test",
+      "id": 4
+    },
+    {
+      "name": "Darina",
+      "columnId": 3,
+      "type": "Done",
+      "id": 5
+    },
+    {
+      "name": "zxc",
+      "columnId": 4,
+      "type": "Backlog",
+      "id": 7
+    },
+    {
+      "name": "god",
+      "columnId": 4,
+      "type": "Backlog",
+      "id": 8
+    },
+    {
+      "name": "Zadacha",
+      "columnId": 2,
+      "type": "In test",
+      "id": 9
+    },
+    {
+      "name": "lol",
+      "columnId": 3,
+      "type": "Done",
+      "id": 10
     }
   ]
 }
