@@ -1,54 +1,29 @@
 {
   "columns": [
     {
-      "type": "In test",
-      "id": 2
-    },
-    {
-      "type": "Done",
-      "id": 3
-    },
-    {
       "type": "Backlog",
-      "id": 4
+      "id": 1
+    },
+    {
+      "id": 2,
+      "type": "Done"
     }
   ],
   "tasks": [
     {
-      "name": "roma",
-      "columnId": 2,
-      "type": "In test",
-      "id": 4
+      "name": "1",
+      "columnId": 1,
+      "id": 1
     },
     {
-      "name": "Darina",
-      "columnId": 3,
-      "type": "Done",
-      "id": 5
+      "name": "2",
+      "columnId": 1,
+      "id": 2
     },
     {
-      "name": "zxc",
-      "columnId": 4,
-      "type": "Backlog",
-      "id": 7
-    },
-    {
-      "name": "god",
-      "columnId": 4,
-      "type": "Backlog",
-      "id": 8
-    },
-    {
-      "name": "Zadacha",
-      "columnId": 2,
-      "type": "In test",
-      "id": 9
-    },
-    {
-      "name": "lol",
-      "columnId": 3,
-      "type": "Done",
-      "id": 10
+      "name": "3",
+      "columnId": 1,
+      "id": 3
     }
   ]
 }
