@@ -1,29 +1,4 @@
 {
-  "columns": [
-    {
-      "type": "Backlog",
-      "id": 1
-    },
-    {
-      "id": 2,
-      "type": "Done"
-    }
-  ],
-  "tasks": [
-    {
-      "name": "1",
-      "columnId": 1,
-      "id": 1
-    },
-    {
-      "name": "2",
-      "columnId": 1,
-      "id": 2
-    },
-    {
-      "name": "3",
-      "columnId": 1,
-      "id": 3
-    }
-  ]
+	"columns": [],
+	"tasks": []
 }

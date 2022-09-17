@@ -86,7 +86,7 @@ const ColumnTask: React.FC<IColumnTask> = ({ task }) => {
 
 	return (
 		<div
-			className={clsx('flex rounded bg-[#F5F5F5] card')}
+			className={clsx('flex rounded flex-shrink-0 basis-0 bg-[#F5F5F5] card')}
 			onDragStart={DragStartHandler}
 			onDragLeave={DragLeaveHandler}
 			onDragEnd={DragEndHandler}
@@ -94,7 +94,7 @@ const ColumnTask: React.FC<IColumnTask> = ({ task }) => {
 			onDrop={DropHandler}
 			draggable={true}
 		>
-			<div className='bg-[#EFEFEF] grow-[1] p-4 flex flex-col items-center relative'>
+			<div className='bg-[#EFEFEF] w-1/4 p-4 flex flex-col items-center relative'>
 				<span className='h-8 w-8 rounded-full bg-white'></span>
 				<span className='h-8 w-8 rounded-full bg-slate-500 absolute top-8'></span>
 				<span className='mt-8'>
@@ -103,7 +103,7 @@ const ColumnTask: React.FC<IColumnTask> = ({ task }) => {
 			</div>
 			<div
 				className={clsx(
-					'grow-[3.5] px-3 py-4 text-[13px] leading-[18px]',
+					'w-3/4 px-3 py-4 text-[13px] leading-[18px] break-all',
 					isColumnDone ? 'line-through opacity-50' : '',
 				)}
 			>
