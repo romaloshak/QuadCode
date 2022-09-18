@@ -20,7 +20,7 @@ export const fetchAddTasks = createAsyncThunk(
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ name, columnId }),
+			body: JSON.stringify({ name, columnId, order: 0 }),
 		});
 		return (await response.json()) as ITask;
 	},
@@ -29,24 +29,22 @@ export const fetchAddTasks = createAsyncThunk(
 export const fetchUpdateTasks = createAsyncThunk(
 	'tasks/updateTasks',
 	async ({
-		dragTaskId,
-		name,
+		dragTask,
 		columnId,
-		tasks,
+		dropIndex,
 	}: {
-		dragTaskId: number;
-		name: string;
+		dragTask: ITask;
 		columnId: number;
-		tasks: ITask[];
+		dropIndex: number;
 	}) => {
-		await fetch(`http://localhost:3001/tasks/${dragTaskId}`, {
+		const response = await fetch(`http://localhost:3001/tasks/${dragTask.id}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ name, columnId }),
+			body: JSON.stringify({ ...dragTask, columnId, order: dropIndex + 1 }),
 		});
-		return tasks;
+		return (await response.json()) as ITask;
 	},
 );
 
@@ -69,8 +67,15 @@ export const TasksSlice = createSlice({
 		builder.addCase(fetchAddTasks.fulfilled, (state, { payload }) => {
 			state.tasks = [...state.tasks, payload];
 		});
+
 		builder.addCase(fetchUpdateTasks.fulfilled, (state, { payload }) => {
-			state.tasks = payload;
+			const tasks = state.tasks.map(stateTask => {
+				if (stateTask.id === payload.id) {
+					return { ...stateTask, order: payload.order, columnId: payload.columnId };
+				}
+				return stateTask;
+			});
+			state.tasks = tasks;
 		});
 	},
 });

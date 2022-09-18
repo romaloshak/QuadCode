@@ -20,9 +20,9 @@ const ColumnTask: React.FC<IColumnTask> = ({ task }) => {
 	const tasks = useAppSelector(state => state.tasks.tasks);
 	const isColumnDone = useAppSelector(isSelectedColumnDone(columnId));
 
-	const updateTask = async (tasks: ITask[], dragTaskId: number) => {
+	const updateTask = async (dragTask: ITask, columnId: number, dropIndex: number) => {
 		if (dragTask) {
-			dispatch(fetchUpdateTasks({ name: dragTask.name, columnId, dragTaskId, tasks }));
+			dispatch(fetchUpdateTasks({ dragTask, columnId, dropIndex }));
 		}
 	};
 
@@ -48,38 +48,21 @@ const ColumnTask: React.FC<IColumnTask> = ({ task }) => {
 
 	const DropHandler = async (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
-		e.stopPropagation();
 		if (e.currentTarget.className.includes('card')) {
 			e.currentTarget.style.backgroundColor = '';
 		}
-		//tasks in column where we wanan to put task
-		const columnTasks = tasks.filter(taskEl => taskEl.columnId === task.columnId);
-		const dropIndex = columnTasks.findIndex(columnTask => columnTask.id === task.id);
 		if (dragTask) {
-			if (task.columnId !== dragTask.columnId) {
-				//add task in other culum on drop index place
-				columnTasks.splice(dropIndex, 0, { ...dragTask, columnId });
-				const arr = [...columnTasks, ...tasks].filter(
-					(el, i, arr) => arr.findIndex(s => el.id === s.id) === i,
-				);
-				updateTask(arr, dragTask.id);
-			} else {
-				const currentIndexInColumn = columnTasks.findIndex(taskEl => taskEl.id === dragTask.id);
-				//remove drag task from his previous place
-				columnTasks.splice(currentIndexInColumn, 1);
-				if (Math.abs(currentIndexInColumn - dropIndex) > 0) {
-					//place task insead drop task place
-					//drop task will has index+1
-					columnTasks.splice(dropIndex, 0, dragTask);
-				} else {
-					//drop task next drop task
-					columnTasks.splice(dropIndex + 1, 0, dragTask);
-				}
-				//unique tasks array
-				const arr = [...columnTasks, ...tasks].filter(
-					(el, i, arr) => arr.findIndex(s => el.id === s.id) === i,
-				);
-				updateTask(arr, dragTask.id);
+			const columnTasks = tasks
+				.filter(columnTask => columnTask.columnId === columnId)
+				.sort((a, b) => {
+					if (a.order === 0 || b.order === 0) return -1;
+					return a.order - b.order;
+				});
+			const dragIndex = columnTasks.indexOf(dragTask);
+			const dropIndex = columnTasks.indexOf(task);
+			updateTask(dragTask, task.columnId, dropIndex);
+			if (task.columnId === dragTask.columnId) {
+				updateTask(task, dragTask.columnId, dragIndex);
 			}
 		}
 	};
