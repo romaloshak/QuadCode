@@ -1,4 +1,32 @@
 {
-	"columns": [],
-	"tasks": []
+  "columns": [
+    {
+      "id": 1,
+      "type": "In work"
+    },
+    {
+      "type": "Done",
+      "id": 2
+    }
+  ],
+  "tasks": [
+    {
+      "name": "qwe",
+      "columnId": 1,
+      "order": 1,
+      "id": 1
+    },
+    {
+      "name": "wer",
+      "columnId": 1,
+      "order": 2,
+      "id": 2
+    },
+    {
+      "name": "asd",
+      "columnId": 2,
+      "order": 0,
+      "id": 3
+    }
+  ]
 }

@@ -7,7 +7,7 @@ export interface ColumnsState {
 }
 
 export const fetchColumns = createAsyncThunk('columns/getColumns', async () => {
-	const response = await fetch('http://localhost:3002/columns', { method: 'GET' });
+	const response = await fetch('http://localhost:3001/columns', { method: 'GET' });
 	return (await response.json()) as IColumn[];
 });
 
@@ -63,7 +63,7 @@ export const columnsSlice = createSlice({
 		builder.addCase(fetchColumns.fulfilled, (state, { payload }) => {
 			state.columns = payload;
 		});
-		builder.addCase(fetchColumns.rejected, (state, { payload }) => {
+		builder.addCase(fetchColumns.rejected, (state) => {
 			state.columns = [];
 		});
 		builder.addCase(fetchAddColumn.fulfilled, (state, { payload }) => {
@@ -80,7 +80,5 @@ export const columnsSlice = createSlice({
 		});
 	},
 });
-
-export const { setColumns } = columnsSlice.actions;
 
 export default columnsSlice.reducer;
